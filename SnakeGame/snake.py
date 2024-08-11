@@ -1,44 +1,5 @@
 import turtle, random
 
-#Problem A.
-class Game:
-    '''
-    Purpose: The board on which the game is played
-    Instance variables: self.player - the snake/person playing & self.pellet - the
-    food pellets on the board
-    Methods: gameloop(self) - a method that calls itself to either move the snake
-    and continue the game or to end the game
-    '''
-    def __init__(self):
-        turtle.setup(700, 700)
-        turtle.setworldcoordinates(-40, -40, 640, 640)
-        cv = turtle.getcanvas()
-        cv.adjustScrolls()
-        turtle.hideturtle()
-        turtle.delay(0)
-        turtle.tracer(0, 0) #Extra credit #4: game speed optimization
-        turtle.speed(0)
-        for i in range(4):
-            turtle.forward(600)
-            turtle.left(90)
-        self.player = Snake(315, 315, 'green')
-        self.pellet = Food()
-        self.gameloop()
-        turtle.onkeypress(self.player.go_down, 'Down')
-        turtle.onkeypress(self.player.go_up, 'Up')
-        turtle.onkeypress(self.player.go_left, 'Left')
-        turtle.onkeypress(self.player.go_right, 'Right')
-        turtle.listen()
-        turtle.mainloop()
-
-    def gameloop(self):
-        self.player.move(self.pellet)
-        if (self.player.selfcollision() is True) or (self.player.wallcollision() is True):
-            turtle.write('GAME OVER GAME OVER', align='left', font=('Futura', 44, 'bold'))
-        elif (self.player.selfcollision() is False) or (self.player.wallcollision() is False):
-            turtle.ontimer(self.gameloop, 200)
-            turtle.update()
-
 class Snake():
     '''
     Purpose: The snake being controlled by the player
@@ -59,10 +20,27 @@ class Snake():
         self.x = x
         self.y = y
         self.color = color
+        self.current_score = 0
+        self.high_score = 0
         self.segments = []
         self.grow()
         self.vx = 30
         self.vy = 0
+        self.score = None
+
+    def u_score(self):
+        self.score = turtle.Turtle()
+        self.score.speed(0)
+        self.score.shape("square")
+        self.score.color("black")
+        self.score.penup()
+        self.score.hideturtle()
+        self.score.goto(315, 610)
+        self.score.write(
+            "Score: {} High Score: {}".format(self.current_score, self.high_score),
+            align="center",
+            font=("Future", 20, "normal"),
+        )
 
     def grow(self):
         head = turtle.Turtle()
@@ -74,10 +52,23 @@ class Snake():
         head.setpos(self.x, self.y)
         self.segments.append(head)
 
+    def restart(self):
+        for seg in self.segments:
+            seg.hideturtle()
+        self.segments.clear() 
+        self.current_score = 0 
+        self.score.clear() 
+        self.u_score()
+
     def move(self, pellet):
         if self.x == pellet.x and self.y == pellet.y:
             self.grow()
-            pellet.move_p()
+            self.current_score += 1
+            pellet.random_pos()
+            if self.current_score > self.high_score:
+                self.high_score = self.current_score
+            self.score.clear()
+            self.u_score()
         else:
             for i in range(len(self.segments)-1):
                 self.segments[i].setpos(self.segments[i+1].xcor(), self.segments[i+1].ycor())
@@ -100,6 +91,10 @@ class Snake():
     def go_right(self):
         self.vx = 30
         self.vy = 0
+    
+
+
+
 #Problem C.
     def wallcollision(self):
         if self.segments[-1].xcor() > 600 or 0 > self.segments[-1].xcor() or self.segments[-1].ycor() > 600 or 0 > self.segments[-1].ycor():
@@ -112,29 +107,3 @@ class Snake():
             if 15 > self.segments[i].distance(self.segments[-1]):
                 return True
         return False
-
-#Problem B.
-class Food():
-    '''
-    Purpose: A food pellet
-    Instance variables: self.pellet - a turtle object representing a food pellet;
-    self.x - a randomized x coordinate; & self.y - a randomized y coordinate
-    Methods: move_p(self) - a method for randomly placing a pellet
-    '''
-    def __init__(self):
-        self.pellet = turtle.Turtle()
-        self.pellet.speed(0)
-        self.pellet.fillcolor('tomato')
-        self.pellet.shape('circle')
-        self.pellet.shapesize(1.5, 1.5)
-        self.pellet.penup()
-        self.x = 15 + 30*random.randint(0,19)
-        self.y = 15 + 30*random.randint(0,19)
-        self.pellet.setpos(self.x, self.y)
-
-    def move_p(self):
-        self.x = 15 + 30*random.randint(0,19)
-        self.y = 15 + 30*random.randint(0,19)
-        self.pellet.setpos(self.x, self.y)
-
-Game()
