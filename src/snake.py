@@ -37,7 +37,7 @@ class Snake():
         self.score.hideturtle()
         self.score.goto(315, 610)
         self.score.write(
-            "Score: {} High Score: {}".format(self.current_score, self.high_score),
+            "Score: {}     High Score: {}".format(self.current_score, self.high_score),
             align="center",
             font=("Future", 20, "normal"),
         )
