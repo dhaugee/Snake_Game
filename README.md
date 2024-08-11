@@ -1,3 +1,4 @@
+# Project:
 The classic single-player snake game recreated in Python using the Turtle graphics library.
 
 <img src="https://github.com/user-attachments/assets/2aa24073-36c0-44f3-b281-21e857438bae" width="500">
