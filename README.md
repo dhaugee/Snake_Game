@@ -1,5 +1,5 @@
 # Project:
-The classic single-player snake game recreated in Python using the Turtle graphics library.
+The classic single-player snake game recreated in Python using the Turtle graphics library. Demonstrates basic skillset in object-oriented programming, game development, and user interface design.
 
 <img src="https://github.com/user-attachments/assets/2aa24073-36c0-44f3-b281-21e857438bae" width="400">
 
