@@ -1,7 +1,7 @@
 # Project:
 The classic single-player snake game recreated in Python using the Turtle graphics library.
 
-<img src="https://github.com/user-attachments/assets/2aa24073-36c0-44f3-b281-21e857438bae" width="500">
+<img src="https://github.com/user-attachments/assets/2aa24073-36c0-44f3-b281-21e857438bae" width="400">
 
 ## Rules
 * The "head" of the snake moves forward without stopping, growing one square larger and incrementing the score for every red pellet it eats.
